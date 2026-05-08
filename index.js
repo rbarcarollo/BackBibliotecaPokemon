@@ -8,7 +8,7 @@ app.use(cors({
 }));
 
 app.get('/', (req, res) => {
-  res.json({ mensagem: 'API backend funcionando ✅' });
+  res.json({ mensagem: 'API backend funcionando ✅, com CI/CD Completo' });
 });
 
 app.listen(PORT, () => {
