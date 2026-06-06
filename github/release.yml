@@ -1,0 +1,27 @@
+name: Release (Render)
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Render deploy
+        env:
+          RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+          SERVICE_ID_RAW: ${{ secrets.SERVICE_ID }}
+        run: |
+          set -e
+
+          SERVICE_ID="$(printf "%s" "$SERVICE_ID_RAW" | tr -d '\r\n ' )"
+          URL="https://api.render.com/v1/services/${SERVICE_ID}/deploys"
+
+          curl -f -sS -X POST \
+            -H "Accept: application/json" \
+            -H "Authorization: Bearer ${RENDER_API_KEY}" \
+            -H "Content-Type: application/json" \
+            "$URL" \
+            -d '{}'
